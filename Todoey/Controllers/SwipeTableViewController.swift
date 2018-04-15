@@ -13,7 +13,7 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        // Change tableView rowHeight to accomodate the trash icon.
         tableView.rowHeight = 80.0
     }
     

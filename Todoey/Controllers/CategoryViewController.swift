@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 class CategoryViewController: SwipeTableViewController {
     
@@ -16,15 +17,16 @@ class CategoryViewController: SwipeTableViewController {
     let realm = try! Realm()
 
     var categories: Results<Category>?
-    
+    var cellColorHex: String = UIColor.randomFlat.hexValue()
  
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        loadCategory()
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
-       loadCategory()
-    
-        // Change tableView rowHeight to accomodate the trash icon.
+
     
     }
     
@@ -40,6 +42,7 @@ class CategoryViewController: SwipeTableViewController {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories added yet"
+        cell.backgroundColor = HexColor((categories?[indexPath.row].cellColor)!) ?? HexColor(cellColorHex)
         
         return cell
     }
@@ -113,6 +116,7 @@ class CategoryViewController: SwipeTableViewController {
         
          var textField = UITextField()
         
+        
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
         
         
@@ -121,6 +125,7 @@ class CategoryViewController: SwipeTableViewController {
             
             let newCategory = Category()
             newCategory.name = textField.text!
+            newCategory.cellColor = UIColor.randomFlat.hexValue()
             self.save(category: newCategory)
         }
         
